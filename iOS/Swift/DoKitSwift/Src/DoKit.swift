@@ -36,6 +36,7 @@ public class DoKit {
         addPlugin(plugin: ViewCheckPlugin())
         addPlugin(plugin: ViewMetricsPlugin())
         addPlugin(plugin: ColorPickPlugin())
+        addPlugin(plugin: HierarchyPlugin())
 
         // 性能检测
         addPlugin(plugin: LaunchTimePlugin())
