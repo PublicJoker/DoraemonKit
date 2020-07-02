@@ -8,7 +8,7 @@
 class HierarchyTitleCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(16))
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         return $0
     }(UILabel())
     

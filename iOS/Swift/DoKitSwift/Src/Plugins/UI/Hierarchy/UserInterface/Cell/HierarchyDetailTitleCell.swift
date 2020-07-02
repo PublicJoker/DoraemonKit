@@ -8,7 +8,7 @@
 class HierarchyDetailTitleCell: HierarchyTitleCell {
     lazy var detailLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.textAlignment = .right
         $0.numberOfLines = 0
         return $0

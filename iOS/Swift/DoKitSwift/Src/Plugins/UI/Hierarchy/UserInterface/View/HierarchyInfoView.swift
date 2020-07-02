@@ -21,14 +21,15 @@ class HierarchyInfoView: MoveView {
     
     var selectedView: UIView?
 
+    //MARK: - Getters and setters
     lazy var closeButton: UIButton = {
-        $0.addTarget(self, action: #selector(closeButtonClick), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(closeButtonClicked), for: .touchUpInside)
         return $0
     }(UIButton())
     
     private lazy var contentLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
         return $0
@@ -36,7 +37,7 @@ class HierarchyInfoView: MoveView {
     
     private lazy var frameLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
         
@@ -48,7 +49,7 @@ class HierarchyInfoView: MoveView {
     
     private lazy var backgroundColorLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
         
@@ -60,7 +61,7 @@ class HierarchyInfoView: MoveView {
     
     private lazy var textColorLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
         
@@ -72,7 +73,7 @@ class HierarchyInfoView: MoveView {
     
     private lazy var fontLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
         
@@ -82,9 +83,9 @@ class HierarchyInfoView: MoveView {
         return $0
     }(UILabel())
 
-    private lazy var fontLabel: UILabel = {
+    private lazy var tagLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.numberOfLines = 0
         $0.lineBreakMode = .byCharWrapping
         
@@ -94,17 +95,71 @@ class HierarchyInfoView: MoveView {
         return $0
     }(UILabel())
     
-    private var tagLabel: UILabel?
-    private var actionContentView: UILabel?
-    private var moreButton: UIButton?
-    private var parentViewsButton: UIButton?
-    private var subviewsButton: UIButton?
+    private lazy var actionContentView: UIView = {
+        return $0
+    }(UIView())
+
+    private lazy var parentViewsButton: UIButton = {
+        $0.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+        $0.setTitle("Parent Views", for: .normal)
+        $0.titleLabel?.textColor = .black_1
+        $0.titleLabel?.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
+
+        $0.backgroundColor = .white
+        $0.layer.borderColor = UIColor.black_1.cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+        $0.tintColor = .black_1
+        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+        $0.setImage(DKImage(named: "doraemon_hierarchy_parent")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        $0.tag = HierarchyInfoViewAction.showParent.rawValue
+        $0.isEnabled = false
+        return $0
+    }(UIButton(type: .custom))
+    
+    private lazy var subviewsButton: UIButton = {
+        $0.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+        $0.setTitle("Subviews", for: .normal)
+        $0.titleLabel?.textColor = .black_1
+        $0.titleLabel?.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
+        $0.backgroundColor = .white
+        $0.layer.borderColor = UIColor.black_1.cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+        $0.tintColor = .black_1
+        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+        $0.setImage(DKImage(named: "doraemon_hierarchy_subview")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        $0.tag = HierarchyInfoViewAction.showSubview.rawValue
+        $0.isEnabled = false
+        return $0
+    }(UIButton(type: .custom))
+    
+    private lazy var moreButton: UIButton = {
+        $0.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+        $0.setTitle("More Info", for: .normal)
+        $0.titleLabel?.textColor = .black_1
+        $0.titleLabel?.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
+        $0.backgroundColor = .white
+        $0.layer.borderColor = UIColor.black_1.cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+        $0.tintColor = .black_1
+        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+        $0.setImage(DKImage(named: "doraemon_hierarchy_info")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        $0.tag = HierarchyInfoViewAction.showMoreInfo.rawValue
+        $0.isEnabled = false
+        return $0
+    }(UIButton(type: .custom))
+    
     private var actionContentViewHeight: CGFloat = 0.0
     
     override func initUI() {
         super.initUI()
         
-        layer.borderColor = UIColor.black_1().cgColor
+        layer.borderColor = UIColor.black_1.cgColor
         layer.borderWidth = 2
         layer.cornerRadius = 5
         layer.masksToBounds = true
@@ -120,22 +175,22 @@ class HierarchyInfoView: MoveView {
             return
         }
         
-        moreButton?.isEnabled = true
-        parentViewsButton?.isEnabled = mView.superview != nil
-        subviewsButton?.isEnabled = mView.subviews.count > 0
+        moreButton.isEnabled = true
+        parentViewsButton.isEnabled = mView.superview != nil
+        subviewsButton.isEnabled = mView.subviews.count > 0
         
         selectedView = mView
         
-        contentLabel?.text = "Name: "
-        frameLabel?.text = "Frame: "
-        backgroundColorLabel?.text = "Background: "
+        contentLabel.text = "Name: "
+        frameLabel.text = "Frame: "
+        backgroundColorLabel.text = "Background: "
         
-        contentLabel?.sizeToFit()
-        frameLabel?.sizeToFit()
-        backgroundColorLabel?.sizeToFit()
-        textColorLabel?.sizeToFit()
-        fontLabel?.sizeToFit()
-        tagLabel?.sizeToFit()
+        contentLabel.sizeToFit()
+        frameLabel.sizeToFit()
+        backgroundColorLabel.sizeToFit()
+        textColorLabel.sizeToFit()
+        fontLabel.sizeToFit()
+        tagLabel.sizeToFit()
         
         updateHeightIfNeeded()
     }
@@ -145,11 +200,11 @@ class HierarchyInfoView: MoveView {
         
         closeButton.frame = CGRect(x: width - 10 - 30, y: 10, width: 30, height: 30)
         
-        actionContentView?.frame = CGRect(x: 0, y: height - actionContentViewHeight - 10, width: width, height: actionContentViewHeight)
+        actionContentView.frame = CGRect(x: 0, y: height - actionContentViewHeight - 10, width: width, height: actionContentViewHeight)
     }
     
     private func updateHeightIfNeeded() {
-        let contentHeight: CGFloat = contentLabel.height + frameLabel.height + backgroundColorLabel.height + textColorLabel.height + fontLabel!.height + tagLabel!.height
+        let contentHeight: CGFloat = contentLabel.height + frameLabel.height + backgroundColorLabel.height + textColorLabel.height + fontLabel.height + tagLabel.height
         let newHeight: CGFloat = 10 + max(contentHeight, 10 + 30/*self.closeButton.doraemon_height*/) + 10 + actionContentViewHeight + 10
         
         if newHeight != height {
