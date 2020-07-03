@@ -22,19 +22,40 @@ class HierarchyViewController: BaseViewController {
         return $0
     }(UIView())
     
-    var observeViews: Set<UIView>?
+    var observeViews: Set<UIView>? = []
     
-    var borderViews: Dictionary<NSNumber, UIView>?
+    var borderViews: Dictionary<NSNumber, UIView>? = [:]
+        
+    lazy var pickerView: HierarchyPickerView = {
+        let height: CGFloat = 100
+        $0.frame = CGRect(x: (kScreenWidth - 60) / 2.0, y: (kScreenHeight - 60) / 2.0, width: 60, height: 60)
+        return $0
+    }(HierarchyPickerView())
     
-    var pickerView: HierarchyPickerView?
-    
-    var infoView: HierarchyInfoView?
+    lazy var infoView: HierarchyInfoView = {
+        let height: CGFloat = 100
+        $0.frame = CGRect(x: 10, y: kScreenHeight - 10 * 2 - height, width: kScreenWidth - 10 * 2, height: height)
+        return $0
+    }(HierarchyInfoView())
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1).withAlphaComponent(0.1)
+        
+        
+        infoView.delegate = self
+        view.addSubview(infoView)
+        view.addSubview(borderView)
+        view.addSubview(pickerView)
+    }
+    
+    deinit {
+        for view in observeViews ?? [] {
+            stopObserveView(view)
+        }
+        observeViews?.removeAll()
     }
     
     func beginObserveView(view: UIView, borderWidth: CGFloat) {
@@ -49,6 +70,11 @@ class HierarchyViewController: BaseViewController {
         // TODO: doraemon_hashColor
         borderView.layer.borderColor = view.backgroundColor?.cgColor
         borderView.layer.borderWidth = borderWidth
+        borderView.frame = frameInLocalForView(view)
+        
+        borderViews![NSNumber(value: borderView.hash)] = borderView
+        
+        view.addObserver(self, forKeyPath: "frame", options: .new, context: nil)
     }
     
     func stopObserveView(_ view: UIView) {
@@ -148,7 +174,7 @@ extension HierarchyViewController: HierarchyViewDelegate {
 
 extension HierarchyViewController: HierarchyInfoViewDelegate {
     func doraemonHierarchyInfoView(view: HierarchyInfoView, didSelectAt action: HierarchyInfoViewAction) {
-        guard let selectView = self.infoView!.selectedView else {
+        guard let selectView = self.infoView.selectedView else {
             return
         }
 
@@ -205,7 +231,7 @@ extension HierarchyViewController: HierarchyInfoViewDelegate {
     }
     
     func setNewSelectView(view: UIView) {
-        doraemonHierarchyView(view: pickerView!, didMoveTo: [view])
+        doraemonHierarchyView(view: pickerView, didMoveTo: [view])
     }
 }
 
