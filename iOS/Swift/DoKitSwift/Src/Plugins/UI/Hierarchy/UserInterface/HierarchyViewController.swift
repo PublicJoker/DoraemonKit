@@ -29,12 +29,14 @@ class HierarchyViewController: BaseViewController {
     lazy var pickerView: HierarchyPickerView = {
         let height: CGFloat = 100
         $0.frame = CGRect(x: (kScreenWidth - 60) / 2.0, y: (kScreenHeight - 60) / 2.0, width: 60, height: 60)
+        $0.initUI()
         return $0
     }(HierarchyPickerView())
     
     lazy var infoView: HierarchyInfoView = {
         let height: CGFloat = 100
         $0.frame = CGRect(x: 10, y: kScreenHeight - 10 * 2 - height, width: kScreenWidth - 10 * 2, height: height)
+        $0.initUI()
         return $0
     }(HierarchyInfoView())
     
