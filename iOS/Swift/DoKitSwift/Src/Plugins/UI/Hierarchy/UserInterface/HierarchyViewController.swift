@@ -61,7 +61,7 @@ class HierarchyViewController: BaseViewController {
     }
     
     func beginObserveView(view: UIView, borderWidth: CGFloat) {
-        guard self.observeViews?.contains(view) == true else {
+        guard self.observeViews?.contains(view) == false else {
             return
         }
         
@@ -70,7 +70,7 @@ class HierarchyViewController: BaseViewController {
         view.addSubview(borderView)
         view.sendSubviewToBack(borderView)
         // TODO: doraemon_hashColor
-        borderView.layer.borderColor = view.backgroundColor?.cgColor
+        borderView.layer.borderColor = view.hashColor().cgColor
         borderView.layer.borderWidth = borderWidth
         borderView.frame = frameInLocalForView(view)
         

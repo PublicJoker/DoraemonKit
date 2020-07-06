@@ -38,12 +38,12 @@ class HierarchyDetailViewController: HierarchyTableViewController {
     func loadData() {
         objectDatas.removeAll()
         
-//        let models = selectView.doraemon_hierarchyCategoryModels
-//        objectDatas += models
+        let models = selectView!.doraemon_hierarchyCategoryModels()
+        objectDatas += models
         
         sizeDatas.removeAll()
-        //        let sizeModels = selectView.doraemon_sizeHierarchyCategoryModels
-        //        sizeDatas += sizeModels
+        let sizeModels = selectView!.doraemon_sizeHierarchyCategoryModels()
+        sizeDatas += sizeModels
         reloadTableView()
     }
     

@@ -20,8 +20,7 @@ class HierarchyPlugin: Plugin {
     
     func onSelected() {
         let window = HierarchyWindow.init(frame: UIScreen.main.bounds)
-        let helper = HierarchyHelper.shared
-        helper.window = window
+        HierarchyHelper.shared.window = window
         window.show()
         HomeWindow.shared.hide()
     }
