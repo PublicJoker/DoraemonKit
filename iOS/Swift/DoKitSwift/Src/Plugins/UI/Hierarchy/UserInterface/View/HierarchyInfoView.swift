@@ -23,9 +23,10 @@ class HierarchyInfoView: MoveView {
 
     //MARK: - Getters and setters
     lazy var closeButton: UIButton = {
+        $0.setImage(DKImage(named: "doraemon_close"), for: .normal)
         $0.addTarget(self, action: #selector(closeButtonClicked), for: .touchUpInside)
         return $0
-    }(UIButton())
+    }(UIButton(type: .custom))
     
     private lazy var contentLabel: UILabel = {
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(14))
@@ -164,6 +165,22 @@ class HierarchyInfoView: MoveView {
         layer.cornerRadius = 5
         layer.masksToBounds = true
         backgroundColor = .white
+        
+        self.actionContentViewHeight = 80
+        
+        self.addSubview(closeButton)
+        self.addSubview(contentLabel)
+        self.addSubview(frameLabel)
+        self.addSubview(backgroundColorLabel)
+        self.addSubview(textColorLabel)
+        self.addSubview(fontLabel)
+        self.addSubview(tagLabel)
+        self.addSubview(actionContentView)
+        actionContentView.addSubview(parentViewsButton)
+        actionContentView.addSubview(subviewsButton)
+        actionContentView.addSubview(moreButton)
+        
+        updateHeightIfNeeded()
     }
     
     func updateSelectedView(view: UIView?) {
@@ -181,7 +198,12 @@ class HierarchyInfoView: MoveView {
         
         selectedView = mView
         
-        contentLabel.text = "Name: "
+        let boldAttri = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
+        let attri = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]
+        let name = NSMutableAttributedString(string: "Name: ", attributes: boldAttri)
+        name.append(NSAttributedString(string: NSStringFromClass(type(of: mView)), attributes: attri))
+        
+        contentLabel.attributedText = name
         frameLabel.text = "Frame: "
         backgroundColorLabel.text = "Background: "
         
@@ -201,6 +223,8 @@ class HierarchyInfoView: MoveView {
         closeButton.frame = CGRect(x: width - 10 - 30, y: 10, width: 30, height: 30)
         
         actionContentView.frame = CGRect(x: 0, y: height - actionContentViewHeight - 10, width: width, height: actionContentViewHeight)
+        
+        contentLabel.frame = CGRect(x: 10, y: 10, width: closeButton.originX - 10 - 10, height: contentLabel.height)
     }
     
     private func updateHeightIfNeeded() {

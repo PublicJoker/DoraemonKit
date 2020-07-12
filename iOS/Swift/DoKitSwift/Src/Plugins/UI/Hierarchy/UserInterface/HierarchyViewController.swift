@@ -171,6 +171,7 @@ extension HierarchyViewController: HierarchyViewDelegate {
                 observeViews!.insert(selectedView)
             }
         }
+        infoView.updateSelectedView(view: findSelectedViewInViews(selectedViews: selectedViews))
     }
 }
 

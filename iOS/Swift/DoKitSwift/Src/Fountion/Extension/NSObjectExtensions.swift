@@ -122,7 +122,7 @@ extension NSObject {
         
         let result = CGFloat(Unmanaged<NSString>.fromOpaque(p!).takeUnretainedValue().floatValue)
         
-        let newInsets = UIEdgeInsets(top: result, left: result, bottom: result, right: result) ?? UIEdgeInsets.zero
+        let newInsets = UIEdgeInsets(top: result, left: result, bottom: result, right: result)
         if UIEdgeInsets.zero == newInsets {
             // Wrong text.
             return insets
